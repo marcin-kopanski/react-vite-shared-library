@@ -1,7 +1,14 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+
+export interface User {
+  name: string;
+  email: string;
+  isAdmin: boolean;
+}
 
 export interface SharedContextState {
-  user: { name: string; email: string; isAdmin: boolean };
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
 export const SharedContext = createContext<SharedContextState | undefined>(
@@ -15,13 +22,15 @@ interface SharedContextProviderProps {
 export const SharedContextProvider = ({
   children,
 }: SharedContextProviderProps) => {
-  const user = {
+  const [user, setUser] = useState<User>({
     name: "Marcin",
     email: "marcin.kopanski@silkycoders.com",
     isAdmin: true,
-  };
+  });
 
   return (
-    <SharedContext.Provider value={{ user }}>{children}</SharedContext.Provider>
+    <SharedContext.Provider value={{ user, setUser }}>
+      {children}
+    </SharedContext.Provider>
   );
 };
