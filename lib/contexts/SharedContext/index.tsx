@@ -11,9 +11,9 @@ export interface SharedContextState {
   setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
-export const SharedContext = createContext<SharedContextState | undefined>(
-  undefined
-);
+export const SharedContext = createContext<{
+  state: SharedContextState | undefined;
+}>({ state: undefined });
 
 interface SharedContextProviderProps {
   children?: React.ReactNode;
@@ -29,7 +29,7 @@ export const SharedContextProvider = ({
   });
 
   return (
-    <SharedContext.Provider value={{ user, setUser }}>
+    <SharedContext.Provider value={{ state: { user, setUser } }}>
       {children}
     </SharedContext.Provider>
   );
